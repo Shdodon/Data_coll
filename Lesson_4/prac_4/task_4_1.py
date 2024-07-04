@@ -28,7 +28,10 @@ data_list = []
 for rows in table_rows:
     data = {}
     colums = rows.xpath(".//td/text()")
-    data["rank"] = colums[0].strip()
+    data["rank"] = int(colums[0].strip())
+    data["mark"] = float(colums[1].strip())
+    data["WIND"] = colums[2].strip() if colums[2].strip() else "0"
+    data["Competitor"] = rows.xpath(".//td/a/text()")[0].strip()
     data_list.append(data)
 
 for data in data_list:

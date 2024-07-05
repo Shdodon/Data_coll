@@ -14,6 +14,8 @@
 
 import requests
 from lxml import html
+import pandas as pd
+import csv
 
 url="https://worldathletics.org/records/toplists/sprints/60-metres/indoor/women/senior/2023?page=1"
 
@@ -32,10 +34,22 @@ for rows in table_rows:
     data["mark"] = float(colums[1].strip())
     data["WIND"] = colums[2].strip() if colums[2].strip() else "0"
     data["Competitor"] = rows.xpath(".//td/a/text()")[0].strip()
+    data["DOB"] = colums[5].strip()
+    data["Nat"] = colums[7].strip()
+    data["Pos"] = colums[8].strip()
+    data["Venue"] = colums[9].strip()
+    data["Date"] = colums[10].strip()
+    data["Results Score"] = float(colums[11].strip())
+
     data_list.append(data)
 
 for data in data_list:
     print(data)
+
+df = pd.DataFrame(data_list)
+# print(df)
+df.to_csv('data.csv', index=False)
+
 
 # columns = table_rows[0].xpath(".//td/text()")
 #
